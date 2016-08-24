@@ -1,3 +1,4 @@
+#include "node.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,6 +49,15 @@ char ** fileReader (char * path) {
 }
 
 int main () {
+	int i = 0;
+	struct node *ptr = NULL;
+
+	print_list();
+
+    for(i = 5; i<10; i++)
+        add_to_list("a", i, true);
+
+    print_list();
 
 	char * file = "test.txt";
 	char ** listString = fileReader (file);
