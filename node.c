@@ -11,10 +11,10 @@
 #include "node.h"
 
 
-struct node *head = NULL;
-struct node *curr = NULL;
+//struct node *head = NULL;
+//struct node *curr = NULL;
 
-struct node* create_list(char * name, int value)
+struct node* create_list(struct node *head, char * name, int value)
 {
     printf("\n creating list with headnode as [%d]\n",value);
     struct node *ptr = (struct node*)malloc(sizeof(struct node));
@@ -27,15 +27,16 @@ struct node* create_list(char * name, int value)
     ptr->name = name;
     ptr->next = NULL;
 
-    head = curr = ptr;
+    head = ptr;
     return ptr;
 }
 
-struct node* add_to_list(char * name, int value, bool add_to_end)
+struct node* add_to_list(struct node *head, char * name, int value, bool add_to_end)
 {
+    struct node *curr = last_node(head);
     if(NULL == head)
     {
-        return (create_list(name, value));
+        return (create_list(head, name, value));
     }
 
     if(add_to_end)
@@ -63,10 +64,26 @@ struct node* add_to_list(char * name, int value, bool add_to_end)
         ptr->next = head;
         head = ptr;
     }
-    return ptr;
+    return head;
 }
 
-struct node* search_in_list(int value, struct node **prev)
+struct node * last_node(struct node *head)
+{
+    struct node *ptr = head;
+    struct node *tmp = NULL;
+    bool found = false;
+
+    while(ptr != NULL)
+    {
+        tmp = ptr;
+        ptr = ptr->next;
+    }
+    
+    return tmp;
+};
+
+//struct node* search_in_list(struct node *head, int value, struct node **prev)
+struct node* search_in_list(struct node *head, int value)
 {
     struct node *ptr = head;
     struct node *tmp = NULL;
@@ -90,8 +107,8 @@ struct node* search_in_list(int value, struct node **prev)
 
     if(true == found)
     {
-        if(prev)
-            *prev = tmp;
+        //if(prev)
+            //*e = tmp;
         return ptr;
     }
     else
@@ -100,7 +117,7 @@ struct node* search_in_list(int value, struct node **prev)
     }
 }
 
-int delete_from_list(int value)
+/*int delete_from_list(int value)
 {
     struct node *prev = NULL;
     struct node *del = NULL;
@@ -131,9 +148,9 @@ int delete_from_list(int value)
     del = NULL;
 
     return 0;
-}
+}*/
 
-void print_list(void)
+void print_list(struct node *head)
 {
     struct node *ptr = head;
 

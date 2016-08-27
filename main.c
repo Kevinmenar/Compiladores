@@ -3,63 +3,51 @@
 #include <stdlib.h>
 #include <string.h>
 
-char ** fileReader (char * path) {
-    FILE * fl;
-    long fl_size;
-    char * buffer;
-    size_t res;
+void removeChar(char *str, char garbage) {
 
-    fl = fopen ( path , "r+" );
-    if (fl==NULL) {
-        fprintf (stderr, "File error\n"); 
-        exit (1);
+    char *src, *dst;
+    for (src = dst = str; *src != '\0'; src++) {
+        *dst = *src;
+        if (*dst != garbage) dst++;
     }
+    *dst = '\0';
+}
 
-    fseek (fl , 0 , SEEK_END);
-    fl_size = ftell (fl);
-    rewind (fl);
+void fileReader (char * path) {
 
-    buffer = (char*) malloc (sizeof(char)*fl_size);
-    if (buffer == NULL) {
-        fputs ("Memory error",stderr); 
-        exit (2);
-    }
-
-    res = fread (buffer,1,fl_size,fl);
-    if (res != fl_size) {
-        fputs ("Reading error",stderr); 
-        exit (3);
-    }
-
-    char ** arrayString = malloc(10 * sizeof(char*));;
-    char * strtok_res;
-    strtok_res = strtok(buffer, " ");
-    int cont = 0;
-    while (strtok_res != NULL)
+    struct node *ptr = NULL;
+    FILE *fp = fopen(path, "r");
+    const char s[1] = " ";
+    char *token;
+    int i;
+    if(fp != NULL)
     {
-        printf ("%s\n", strtok_res);
-        arrayString[cont] = strtok_res;
-        strtok_res = strtok (NULL, " ");
-        cont++;
-    }
-
-    fclose (fl);
-    free (buffer);
-
+        char line[100];
+        char ** arrayString = malloc(10 * sizeof(char*));
+        while(fgets(line, sizeof line, fp) != NULL)
+        {
+        	strcpy(line, line);
+    		removeChar(line, '\n');
+    		char * copy = malloc(strlen(line) + 1);
+    		strcpy(copy, line);
+    		ptr = add_to_list(ptr, copy, 1, true);
+        }
+        fclose(fp);
+    } else {
+        perror(path);
+    }    
+    print_list(ptr);
+    return 
 }
 
 int main () {
+
 	int i = 0;
-	struct node *ptr = NULL;
-
-	print_list();
-
-    for(i = 5; i<10; i++)
-        add_to_list("a", i, true);
-
-    print_list();
 
 	char * file = "test.txt";
-	char ** listString = fileReader (file);
+	fileReader (file);
+	struct node *node_numbers = struct node_txt *ptr;
+	struct node *node_txt = struct node_txt *ptr;
+
     return 0;
 }
