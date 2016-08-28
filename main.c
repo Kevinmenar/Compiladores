@@ -36,7 +36,7 @@ struct node * fileReader (char * path, struct node *node_txt) {
     } else {
         perror(path);
     }    
-    print_list(ptr);
+    //print_list(ptr);
     return ptr;
 }
 
@@ -47,6 +47,7 @@ int main () {
 	//printf("\n The first number is %lu ", temp);
 
 	char * file = "test.txt";
+	fopen("file.txt", "w");
 	struct node *node_numbers = NULL;
 	struct node *node_txt = fileReader (file, node_txt);
 

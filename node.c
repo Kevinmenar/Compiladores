@@ -18,7 +18,6 @@
 
 struct node* create_list(struct node *head, char * name, long long value)
 {
-    printf("\n creating list with headnode as [%d]\n",value);
     struct node *ptr = (struct node*)malloc(sizeof(struct node));
     if(NULL == ptr)
     {
@@ -83,6 +82,42 @@ struct node * last_node(struct node *head)
     
     return tmp;
 };
+
+void writeRoman (char * caracter){
+    FILE *f = fopen("file.txt", "a");
+    if (f == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    fprintf(f, "The Roman number is %s \n", caracter);
+    fprintf(f, "------------------------ \n");
+    fclose(f);
+}
+
+void writeOutPut (long long  caracter){
+    FILE *f = fopen("file.txt", "a");
+    if (f == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    fprintf(f, "The Total is %lu \n", caracter);
+    fclose(f);
+}
+
+void writeError (int cont, char * token){
+    FILE *f = fopen("file.txt", "a");
+    if (f == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    fprintf(f, "Error in the token %d ", cont);
+    fprintf(f, "Token con inconsistencias %s \n", token);
+    fprintf(f, "------------------------ \n");
+    fclose(f);
+}
 
 //struct node* search_in_list(struct node *head, int value, struct node **prev)
 struct node* search_in_list(struct node *head, long long value)
@@ -154,6 +189,27 @@ int int_lenght (int number){
     return floor(log10(abs(number))) + 1;
 }
 
+
+void decimalromanstr(long long number){
+    long long delete[] = { 500000000000, 100000000000, 50000000000, 10000000000, 5000000000, 1000000000, 500000000 ,100000000, 50000000, 10000000, 5000000 ,1000000, 500000, 100000, 50000, 10000, 5000, 1000,900,500,400,100,90,50,40,10,9,5,4,1};
+    char * symbol[] = { "D|||" ,"C|||", "L|||", "X|||", "V|||","M||","D||", "C||", "L||", "X||","V||","M|","D|","C|","L|","X|","V|","M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+    char result[256] = "\0";         
+    long long i = 0;                  
+    while (number){
+        //printf("Loop 1 \n"); // Si se quita el loop SE CAE EL PROGRAMA, NO tengo ni idea de por que!         
+        while (number/delete[i]){
+            strcat(result, symbol[i]); 
+            number -= delete[i];       
+        }
+        i++;
+        //printf("Error \n");                  
+    }
+    char * copy = malloc(strlen(result) + 1);
+    strcpy(copy, result);
+    writeRoman (copy);
+    printf("The Roman Total is %s \n", result);
+}
+
 char * createStringNumber (struct node *list_numbers, char * line){
     int cont = 0;
     int flag = 0;
@@ -203,6 +259,7 @@ char * createStringNumber (struct node *list_numbers, char * line){
                                 flag = 1;
                                 printf("Error in the token %d ", cont);
                                 printf(" Token con inconsistencias %s \n",token);
+                                writeError (cont, token);
                                 break;
                             }
                         }
@@ -210,6 +267,7 @@ char * createStringNumber (struct node *list_numbers, char * line){
                             flag = 1;
                             printf("Error in the token %d ", cont);
                             printf(" Token con inconsistencias %s \n",token);
+                            writeError (cont, token);
                             break;
                         }
                     }
@@ -221,6 +279,7 @@ char * createStringNumber (struct node *list_numbers, char * line){
                                 flag = 1;
                                 printf("Error in the token %d ", cont);
                                 printf(" Token con inconsistencias [%s] \n",token);
+                                writeError (cont, token);
                                 break;
                             }
                         }
@@ -228,6 +287,7 @@ char * createStringNumber (struct node *list_numbers, char * line){
                             flag = 1;
                             printf("Error in the token %d ", cont);
                             printf(" Token con inconsistencias [%s] \n",token);
+                            writeError (cont, token);
                             break;
                         }
                     }
@@ -237,6 +297,7 @@ char * createStringNumber (struct node *list_numbers, char * line){
                 flag = 1;
                 printf("Error in the token %d ", cont);
                 printf("  Token con inconsistencias [%s] \n",token);
+                writeError (cont, token);
                 break;
             }
         }
@@ -247,12 +308,15 @@ char * createStringNumber (struct node *list_numbers, char * line){
     if ((strcmp(token_anterior, "ciento") != 0)) {
         if (flag != 1){
             ultraTotal = total + ultraTotal;
-            printf("The ultraTotal is %lu \n", ultraTotal);
+            printf("The Total is %lu \n", ultraTotal);
+            writeOutPut (ultraTotal);
+            decimalromanstr(ultraTotal);
         }
     }
     else {
         printf("Error in the token %d ", cont);
         printf("  Token con inconsistencias [%s] \n",token_anterior);
+        writeError (cont, token_anterior);
     }
 }
 

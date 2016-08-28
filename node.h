@@ -21,5 +21,6 @@ int is_in_list(struct node *head, char * name);
 long long search_name(struct node *head, char * name);
 //int delete_from_list(int value);
 void print_list(struct node *head);
+void dec2romanstr(long long num);
 
 #endif /* _SUDO_NODE_H */
