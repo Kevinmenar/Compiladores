@@ -40,11 +40,6 @@ struct node* add_to_list(struct node *head, char * name, long long value, bool a
         return (create_list(head, name, value));
     }
 
-    //if(add_to_end)
-        //printf("\n Adding node to end of list with value [%d]\n",value);
-    //else
-        //printf("\n Adding node to beginning of list with value [%d]\n",value);
-
     struct node *ptr = (struct node*)malloc(sizeof(struct node));
     if(NULL == ptr)
     {
@@ -162,7 +157,14 @@ void printNames (struct node *list_numbers, struct node *txt)
 
     while(ptr != NULL)
     {
-        createStringNumber (list_numbers, ptr->name);
+        char c2[200];
+        strcpy(c2, ptr->name);
+        if (c2[0] == '0' || c2[0] == '1' || c2[0] == '2' || c2[0] == '3' || c2[0] == '4' || c2[0] == '5' || c2[0] == '6' || c2[0] == '7' || c2[0] == '8' || c2[0] == '9' ){
+            words_numbers(ptr->name);
+        }
+        else{
+            createStringNumber (list_numbers, ptr->name);
+        }
         tmp = ptr;
         ptr = ptr->next;
     }
@@ -196,13 +198,11 @@ void decimalromanstr(long long number){
     char result[256] = "\0";         
     long long i = 0;                  
     while (number){
-        //printf("Loop 1 \n"); // Si se quita el loop SE CAE EL PROGRAMA, NO tengo ni idea de por que!         
         while (number/delete[i]){
             strcat(result, symbol[i]); 
             number -= delete[i];       
         }
-        i++;
-        //printf("Error \n");                  
+        i++;                
     }
     char * copy = malloc(strlen(result) + 1);
     strcpy(copy, result);
@@ -380,4 +380,258 @@ void print_list(struct node *head)
     printf("\n -------Printing list End------- \n");
 
     return;
+}
+
+
+char * my_strcat(const char * s1, const char * s2)
+{
+    size_t len1 = strlen(s1);
+    size_t len2 = strlen(s2);
+    char *result = malloc(len1+len2+1);
+    memcpy(result, s1, len1);
+    memcpy(result+len1, s2, len2+1);
+    return result;
+    
+}
+
+void reverse(char *begin, char *end);
+ 
+
+void reverseWords(char *s)
+{
+  char *word_begin = s;
+  char *temp = s;
+ 
+  while( *temp )
+  {
+    temp++;
+    if (*temp == '\0')
+    {
+      reverse(word_begin, temp-1);
+    }
+    else if(*temp == ' ')
+    {
+      reverse(word_begin, temp-1);
+      word_begin = temp+1;
+    }
+  } 
+  reverse(s, temp-1);
+}
+ 
+void reverse(char *begin, char *end)
+{
+  char temp;
+  while (begin < end)
+  {
+    temp = *begin;
+    *begin++ = *end;
+    *end-- = temp;
+  }
+}
+
+void words_numbers(char * numeroEntrada)
+{
+    
+    int i = 0;
+    //==================Tomar fila y analizar por Numeros===============================*/
+    int counter=0;
+    char* resultado;
+    
+    int cantidadNumeros;
+    //char * numeroEntrada="999999";
+    printf ("B2) Generando palabras-------------------------\n");
+    cantidadNumeros=strlen(numeroEntrada);
+    
+    counter=cantidadNumeros-1;
+    
+    printf ("B2) Generando palabras-------------------------\n");
+    printf ("B2) Generando palabras-------------------------\n");
+    
+    char * result="";
+    printf ("B2) Generando palabras-------------------------\n");
+    int PosicionNumeral=1;
+    
+    int flagMil=0;
+    int flagMillon=0;
+    int flagUnique=0;
+    int auxiliarN=0;
+    int validar100=0;
+    
+    printf ("B2) Generando palabras-------------------------\n");
+
+    char lastValue='x';
+    char lastValue2='x';
+    char lastValue3='x';
+    char c;
+    printf ("B6) Generando palabras-------------------------\n");
+    
+    while(counter>=0 )
+    {
+        //printf ("B6 \n");
+        //printf("Cont [%d] \n",counter);
+        c = numeroEntrada[counter];
+        switch( PosicionNumeral)
+        {
+            case 1:
+                printf("Cont case 1[%d] %d \n",counter, PosicionNumeral);
+                lastValue=c;
+                if(flagMillon==1 && counter==0)
+                {
+                    switch (c) 
+                    {
+                        case '0': break;
+                        case '1':
+                        
+                            if(flagUnique==0)
+                            {
+                                printf("uno");
+                                flagUnique=1;
+                            }
+                            else
+                            {
+                                if(counter==0){printf("un");}
+                            }
+                        break;
+                        case '2':resultado = my_strcat(resultado,"dos");printf("dos");break;
+                        case '3':resultado = my_strcat(resultado,"tres");printf("tres");break;
+                        case '4':resultado = my_strcat(resultado,"cuatro");printf("cuatro");break;
+                        case '5':resultado = my_strcat(resultado,"cinco");printf("cinco");break;
+                        case '6':resultado = my_strcat(resultado,"seis");printf("seis");break;
+                        case '7':resultado = my_strcat(resultado,"siete");printf("siete");break;
+                        case '8':resultado = my_strcat(resultado,"ocho");printf("ocho");break;
+                        case '9':resultado = my_strcat(resultado,"nueve");printf("nueve");break;
+                        default:resultado = my_strcat(resultado,"#ERROR : %c #");printf("ERROR - %c - \n",numeroEntrada[counter]);break;
+                    }
+                    flagMillon=0;
+                }
+                if((counter-1)>=0 )
+                {
+                    if(numeroEntrada[counter-1] !='1')
+                    {
+                        switch (c) 
+                        {
+                            case '0': break;
+                            case '1':
+                            
+                                if(flagUnique==0)
+                                {
+                                    resultado = my_strcat(resultado,"uno");printf("uno");
+                                    flagUnique=1;
+                                }
+                                else
+                                {
+                                    resultado = my_strcat(resultado,"un");printf("un");
+                                }
+                            break;
+                            case '2':resultado = my_strcat(resultado," dos ");printf("dos");break;
+                            case '3':resultado = my_strcat(resultado," tres ");printf("tres");break;
+                            case '4':resultado = my_strcat(resultado," cuatro ");printf("cuatro");break;
+                            case '5':resultado = my_strcat(resultado," cinco ");printf("cinco");break;
+                            case '6':resultado = my_strcat(resultado," seis ");printf("seis");break;
+                            case '7':resultado = my_strcat(resultado," siete ");printf("siete");break;
+                            case '8':resultado = my_strcat(resultado," ocho ");printf("ocho");break;
+                            case '9':resultado = my_strcat(resultado," nueve ");printf("nueve");break;
+                            default:resultado = my_strcat(resultado,"ERROR - %c - \n");printf("ERROR - %c - \n",numeroEntrada[counter]);break;
+                        }
+                    }
+                    else if(numeroEntrada[counter-1] =='1')
+                    {
+                        switch (c) 
+                        {
+                            case '0':resultado = my_strcat(resultado,"diez");printf("diez");break;
+                            case '1':resultado = my_strcat(resultado,"once");printf("once");break;
+                            case '2':resultado = my_strcat(resultado,"doce");printf("doce");break;
+                            case '3':resultado = my_strcat(resultado,"trece");printf("trece");break;
+                            case '4':resultado = my_strcat(resultado,"catorce");printf("catorce");break;
+                            case '5':resultado = my_strcat(resultado,"quince");printf("quince");break;
+                            case '6':resultado = my_strcat(resultado,"dieciseis");printf("dieciseis");break;
+                            case '7':resultado = my_strcat(resultado,"diecisiete");printf("diecisiete");break;
+                            case '8':resultado = my_strcat(resultado,"dieciocho");printf("dieciocho");break;
+                            case '9':resultado = my_strcat(resultado,"diecinueve");printf("diecinueve");break;
+                            default:resultado = my_strcat(resultado,"ERROR - %c - \n");printf("ERROR - %c - \n",numeroEntrada[counter]);break;
+                        }
+                    }
+                    
+                }
+                
+            break;
+            case 2:
+                printf("Cont case 2[%d] \n",counter);
+                lastValue2=c;
+                switch (c) 
+                {
+                    case '0': break;
+                    case '1': break;
+                    case '2':
+                        if(lastValue=='0'){resultado = my_strcat(resultado," veinte ");printf(" veinte ");}
+                        else{resultado = my_strcat(resultado," veinti ");printf(" veinti ");}
+                    break;
+                    case '3':resultado = my_strcat(resultado," y treinta ");printf(" y treinta ");break;
+                    case '4':resultado = my_strcat(resultado," y cuarenta ");printf(" y cuarenta ");break;
+                    case '5':resultado = my_strcat(resultado," y cincuenta ");printf(" y cincuenta ");break;
+                    case '6':resultado = my_strcat(resultado," y sesenta ");printf(" y sesenta ");break;
+                    case '7':resultado = my_strcat(resultado," y setenta ");printf(" y setenta ");break;
+                    case '8':resultado = my_strcat(resultado," y ochenta ");printf(" y ochenta ");break;
+                    case '9':resultado = my_strcat(resultado," y noventa ");printf(" y noventa ");break;
+                    default:resultado = my_strcat(resultado," ERROR - %c - \n ");printf("ERROR - %c - \n",numeroEntrada[counter]);break;
+                }
+            break;
+            case 3:
+                printf("Cont case 3[%d] \n",counter);
+                lastValue3=c;
+                switch (c)
+                {
+                    case '0':break;
+                    case '1':resultado = my_strcat(resultado," ciento ");printf(" ciento ");break;
+                    case '2':resultado = my_strcat(resultado," doscientos ");printf(" doscientos ");break;
+                    case '3':resultado = my_strcat(resultado," trescientos ");printf(" trescientos ");break;
+                    case '4':resultado = my_strcat(resultado," cuatrocientos ");printf(" cuatrocientos "); break;
+                    case '5':resultado = my_strcat(resultado," quinientos ");printf(" quinientos ");break;
+                    case '6':resultado = my_strcat(resultado," seiscientos ");printf(" seiscientos "); break;
+                    case '7':resultado = my_strcat(resultado," setecientos ");printf(" setecientos "); break;
+                    case '8':resultado = my_strcat(resultado," ochocientos ");printf(" ochocientos ");break;
+                    case '9':resultado = my_strcat(resultado," novecientos ");printf(" novecientos "); break;    
+                    default:resultado = my_strcat(resultado," ERROR - %c - \n ");printf("ERROR - %c - \n",numeroEntrada[counter]);break;
+                }
+            break;
+            case 4:
+                printf("Cont case 4[%d] \n",counter);
+                if(flagMillon==1)
+                {
+                    if(counter==0 && c=='1'){resultado = my_strcat(resultado," millon ");printf(" millon ");}
+                    else{resultado = my_strcat(resultado," millones ");printf(" millones ");}
+                    PosicionNumeral=0;
+                    flagMil=0;
+                    counter++;
+                    flagMillon=0;
+                }
+                
+                else if(flagMil==0)
+                {
+                    if(c!='0' ){resultado = my_strcat(resultado," mil ");printf(" mil ");}
+                    PosicionNumeral=0;
+                    counter++;
+                    flagMil=1;
+                    flagMillon=1;
+                    validar100=1;
+                    flagUnique=0;
+                }
+                else
+                {
+                    PosicionNumeral=4;
+                    flagMil=0;
+                    flagMillon=0;
+                }
+            break;
+        }   
+        flagUnique=1;
+        PosicionNumeral++;
+        counter--;
+    }
+        reverseWords(resultado);
+        printf("\n==============================================================\n");
+        //printf("\n %s \n",resultado);
+        //------------------------------------------------------------------------------------------
+        //return resultado;
+        //writeRoman (resultado);
 }
